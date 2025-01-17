@@ -1,85 +1,60 @@
 import React, { useState, useEffect } from "react";
 
 const Timer = () => {
-  const [time, setTime] = useState(300); // 5 minutes (300 seconds)
+  const [time, setTime] = useState(300); // 5 minutes
   const [isRunning, setIsRunning] = useState(false);
 
-  const startTimer = () => {
-    setIsRunning(true);
-  };
-
-  const pauseTimer = () => {
-    setIsRunning(false);
-  };
-
-  const resetTimer = () => {
-    setTime(300); // Reset to 5 minutes
-    setIsRunning(false);
-  };
-
   useEffect(() => {
-    let interval;
-    if (isRunning) {
-      interval = setInterval(() => {
-        setTime((prevTime) => (prevTime > 0 ? prevTime - 1 : 0));
-      }, 1000);
-    } else {
-      clearInterval(interval);
+    let timer;
+    if (isRunning && time > 0) {
+      timer = setInterval(() => setTime((prev) => prev - 1), 1000);
+    } else if (time === 0) {
+      setIsRunning(false);
     }
-    return () => clearInterval(interval);
-  }, [isRunning]);
+    return () => clearInterval(timer);
+  }, [isRunning, time]);
 
-  const formatTime = (seconds) => {
-    const minutes = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${minutes}:${secs < 10 ? "0" : ""}${secs}`;
+  const startTimer = () => setIsRunning(true);
+  const pauseTimer = () => setIsRunning(false);
+  const resetTimer = () => {
+    setIsRunning(false);
+    setTime(300);
   };
+
+  const progressPercentage = (time / 300) * 100;
 
   return (
-    <div style={{ marginTop: "20px" }}>
-      <h2>Timer</h2>
-      <div style={{ fontSize: "2rem", margin: "10px 0" }}>{formatTime(time)}</div>
-      <button
-        onClick={startTimer}
-        style={{
-          padding: "10px 20px",
-          marginRight: "10px",
-          fontSize: "1rem",
-          background: "#63B4FF",
-          color: "#fff",
-          border: "none",
-          borderRadius: "5px",
-        }}
-      >
-        Start Timer
-      </button>
-      <button
-        onClick={pauseTimer}
-        style={{
-          padding: "10px 20px",
-          marginRight: "10px",
-          fontSize: "1rem",
-          background: "#FF8C00",
-          color: "#fff",
-          border: "none",
-          borderRadius: "5px",
-        }}
-      >
-        Pause Timer
-      </button>
-      <button
-        onClick={resetTimer}
-        style={{
-          padding: "10px 20px",
-          fontSize: "1rem",
-          background: "#FF5E57",
-          color: "#fff",
-          border: "none",
-          borderRadius: "5px",
-        }}
-      >
-        Reset Timer
-      </button>
+    <div className="mb-6">
+      <h2 className="text-xl font-bold mb-4">Timer</h2>
+      <div className="text-4xl font-bold text-center mb-4">{`${Math.floor(
+        time / 60
+      )}:${String(time % 60).padStart(2, "0")}`}</div>
+      <div className="flex justify-center space-x-4 mb-4">
+        <button
+          onClick={startTimer}
+          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-400"
+        >
+          Start Timer
+        </button>
+        <button
+          onClick={pauseTimer}
+          className="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-400"
+        >
+          Pause Timer
+        </button>
+        <button
+          onClick={resetTimer}
+          className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-400"
+        >
+          Reset Timer
+        </button>
+      </div>
+      <div className="w-full bg-gray-700 h-4 rounded">
+        <div
+          className="bg-green-500 h-4 rounded"
+          style={{ width: `${progressPercentage}%` }}
+        ></div>
+      </div>
     </div>
   );
 };
