@@ -3,28 +3,42 @@ import React, { useState } from "react";
 const ChallengeForm = ({ onAddChallenge }) => {
   const [newChallenge, setNewChallenge] = useState("");
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onAddChallenge(newChallenge);
-    setNewChallenge("");
+  const handleAddChallenge = () => {
+    if (newChallenge.trim()) {
+      onAddChallenge(newChallenge);
+      setNewChallenge("");
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ margin: "20px 0" }}>
+    <div style={{ marginTop: "20px" }}>
       <input
         type="text"
         value={newChallenge}
+        placeholder="Enter a new challenge"
         onChange={(e) => setNewChallenge(e.target.value)}
-        placeholder="Enter a challenge"
-        style={{ padding: "10px", fontSize: "16px", width: "250px" }}
+        style={{
+          padding: "10px",
+          fontSize: "1rem",
+          marginRight: "10px",
+          borderRadius: "5px",
+          border: "1px solid #ccc",
+        }}
       />
       <button
-        type="submit"
-        style={{ marginLeft: "10px", padding: "10px 20px" }}
+        onClick={handleAddChallenge}
+        style={{
+          padding: "10px 20px",
+          fontSize: "1rem",
+          background: "#63B4FF",
+          color: "#fff",
+          border: "none",
+          borderRadius: "5px",
+        }}
       >
         Add Challenge
       </button>
-    </form>
+    </div>
   );
 };
 

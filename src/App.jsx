@@ -4,7 +4,11 @@ import ChallengeForm from "./components/ChallengeForm";
 import ChallengeList from "./components/ChallengeList";
 
 const App = () => {
-  const [challenges, setChallenges] = useState([]);
+  const [challenges, setChallenges] = useState({
+    "Call of Duty": [],
+    "Fortnite": [],
+  });
+  const [currentGame, setCurrentGame] = useState("Call of Duty");
 
   // Load challenges from localStorage on app load
   useEffect(() => {
@@ -21,37 +25,36 @@ const App = () => {
     localStorage.setItem("challenges", JSON.stringify(challenges));
   }, [challenges]);
 
-  const addChallenge = (newChallenge) => {
-    if (newChallenge.trim() !== "") {
-      setChallenges([...challenges, newChallenge.trim()]);
-    }
+  const addChallenge = (challenge) => {
+    setChallenges((prev) => ({
+      ...prev,
+      [currentGame]: [...prev[currentGame], challenge],
+    }));
   };
 
-  const deleteChallenge = (challengeToDelete) => {
-    setChallenges(challenges.filter((challenge) => challenge !== challengeToDelete));
-  };
-
-  const getRandomChallenge = () => {
-    if (challenges.length > 0) {
-      const randomIndex = Math.floor(Math.random() * challenges.length);
-      alert(`Random Challenge: ${challenges[randomIndex]}`);
-    } else {
-      alert("No challenges available!");
-    }
+  const deleteChallenges = (selectedChallenges) => {
+    setChallenges((prev) => ({
+      ...prev,
+      [currentGame]: prev[currentGame].filter(
+        (challenge) => !selectedChallenges.includes(challenge)
+      ),
+    }));
   };
 
   return (
-    <div style={{ padding: "20px", fontFamily: "Arial, sans-serif", textAlign: "center" }}>
+    <div>
       <h1>Stream Event Randomizer</h1>
-      <Timer duration={300} />
+      <GameSelector
+        games={Object.keys(challenges)}
+        currentGame={currentGame}
+        setCurrentGame={setCurrentGame}
+      />
+      <Timer />
       <ChallengeForm onAddChallenge={addChallenge} />
-      <ChallengeList challenges={challenges} onDeleteChallenge={deleteChallenge} />
-      <button
-        onClick={getRandomChallenge}
-        style={{ marginTop: "20px", padding: "10px 20px", fontSize: "16px" }}
-      >
-        Get Random Challenge
-      </button>
+      <ChallengeList
+        challenges={challenges[currentGame]}
+        onDeleteChallenges={deleteChallenges}
+      />
     </div>
   );
 };
