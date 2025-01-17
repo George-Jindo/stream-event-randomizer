@@ -1,0 +1,26 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #181818;
+  color: white;
+  font-family: Arial, sans-serif;
+}
+
+ul {
+  margin: 0 auto; /* Center the list horizontally */
+  padding: 0; /* Remove default padding */
+  list-style: none; /* Remove bullet points */
+  text-align: center; /* Align text in the center */
+}
+
+li {
+  display: flex; /* Use flex for proper alignment */
+  justify-content: center; /* Center content horizontally */
+  align-items: center; /* Center content vertically */
+  font-size: 1.2rem; /* Make the font more readable */
+  margin: 5px 0; /* Add space between list items */
+}
+
+input[type="checkbox"] {
+  margin-right: 10px; /* Space between checkbox and text */
+}
