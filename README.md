@@ -1,8 +1,12 @@
-# React + Vite
+# Stream Event Randomizer
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A web app designed for streamers to randomly pick challenges and manage their events during streams. Includes a functional timer and local storage integration for challenge persistence.
 
-Currently, two official plugins are available:
+## Features
+- Timer with start, pause, and reset
+- Add, delete, and randomize challenges
+- Persistent storage using localStorage
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Tech Stack
+- React
+- CSS
